@@ -41,6 +41,15 @@ RUN mkdir -p /comfyui/models && rm -rf /comfyui/models/CogVideo \
 # 9. Regresamos al directorio principal para que RunPod arranque feliz
 WORKDIR /
 
+# 9.5. El handler.py de la imagen base solo recolecta salidas con la clave
+#      "images". El nodo VHS_VideoCombine reporta el video bajo la clave
+#      "gifs", así que el job terminaba en "success_no_images": corría todo
+#      bien pero el mp4 nunca llegaba a la respuesta ni al webhook. Parcheamos
+#      el handler para que también procese "gifs" (ver patch_handler.py,
+#      debe estar junto a este Dockerfile al hacer el build).
+COPY patch_handler.py /patch_handler.py
+RUN python3 /patch_handler.py && rm /patch_handler.py
+
 # 10. El symlink de arriba se crea en BUILD TIME, cuando /runpod-volume todavía no
 #     existe (el volumen solo se monta cuando el contenedor ya está corriendo).
 #     Si la carpeta real /runpod-volume/models/CogVideo nunca se ha creado, Python
