@@ -14,11 +14,13 @@ WORKDIR /comfyui/custom_nodes/
 RUN git clone https://github.com/kijai/ComfyUI-CogVideoXWrapper.git
 RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
 RUN git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
+RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git
 
 # 6. Instalamos los requisitos (dependencias de Python) de cada extensión
 RUN pip install --no-cache-dir -r ComfyUI-CogVideoXWrapper/requirements.txt
 RUN pip install --no-cache-dir -r ComfyUI-VideoHelperSuite/requirements.txt
 RUN pip install --no-cache-dir -r ComfyUI-Frame-Interpolation/requirements-no-cupy.txt
+RUN pip install --no-cache-dir -r ComfyUI-KJNodes/requirements.txt
 
 # 7. Regresamos al directorio principal para que RunPod arranque feliz
 WORKDIR /
