@@ -1,5 +1,5 @@
 # 1. Usamos la imagen base oficial de RunPod Serverless para ComfyUI
-FROM runpod/worker-comfyui:latest
+FROM registry.runpod.net/runpod-workers-worker-comfyui-main-dockerfile:066a11c49
 
 # 2. Entramos como administrador (root) para instalar programas del sistema
 USER root
