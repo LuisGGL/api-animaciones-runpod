@@ -5,7 +5,7 @@ FROM runpod/worker-comfyui:5.2.0-base
 USER root
 
 # 3. Instalamos ffmpeg (VITAL para que el nodo VHS pueda armar el video .mp4)
-RUN apt-get update && apt-get install -y ffmpeg libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ffmpeg libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
 
 # 4. Nos movemos a la carpeta de nodos personalizados
 WORKDIR /comfyui/custom_nodes/
