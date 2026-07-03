@@ -40,3 +40,15 @@ RUN mkdir -p /comfyui/models && rm -rf /comfyui/models/CogVideo \
 
 # 9. Regresamos al directorio principal para que RunPod arranque feliz
 WORKDIR /
+
+# 10. El symlink de arriba se crea en BUILD TIME, cuando /runpod-volume todavía no
+#     existe (el volumen solo se monta cuando el contenedor ya está corriendo).
+#     Si la carpeta real /runpod-volume/models/CogVideo nunca se ha creado, Python
+#     revienta con "FileExistsError: File exists: '/comfyui/models/CogVideo'" al
+#     intentar descargar el modelo (ve el symlink "roto" y no lo puede tratar como
+#     directorio). Por eso creamos la carpeta real ANTES de arrancar ComfyUI.
+#     La imagen base (runpod/worker-comfyui) solo define CMD ["/start.sh"], sin
+#     ENTRYPOINT, así que es seguro sobreescribir el CMD: hacemos el mkdir y
+#     luego cedemos el control al start.sh original, sin tocar nada más de cómo
+#     arranca el worker.
+CMD ["/bin/bash", "-c", "mkdir -p /runpod-volume/models/CogVideo && exec /start.sh"]
