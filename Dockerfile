@@ -7,6 +7,10 @@ USER root
 # 3. Instalamos ffmpeg (VITAL para que el nodo VHS pueda armar el video .mp4)
 RUN apt-get update && apt-get install -y ffmpeg libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
 
+# Actualizamos el núcleo de ComfyUI a la versión más reciente para que KJNodes funcione
+WORKDIR /comfyui
+RUN git checkout master && git pull origin master
+
 # 4. Nos movemos a la carpeta de nodos personalizados
 WORKDIR /comfyui/custom_nodes/
 
